@@ -9,8 +9,8 @@ Simple Golang Web Crawler.
   * See the basic crawler links statistics: total discovered, uniq discovered, fetched links
 
 # Not implemented
-  * proper logging
-  * good cli to run crawler with different params like "-c 10" (concurrency)
+  * logging with levels
+  * cli to run crawler with different params like "-c 10" (concurrency)
   * additional crawler events
   * robots.txt support 
   * cookie management

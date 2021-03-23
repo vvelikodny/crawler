@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -48,12 +49,12 @@ func main() {
 	c.OnFetched(func(request *http.Request, response *crawler.Response) {
 		mux.Lock()
 		defer mux.Unlock()
-		fmt.Printf("page visited: %s\n", request.URL)
+		log.Printf("page visited: %s\n", request.URL)
 
 		links := c.Extractor().ExtractLinks(request.URL, response)
 
 		for _, link := range links {
-			fmt.Printf("discovered on page: %s\n", link.Url.String())
+			log.Printf("discovered on page: %s\n", link.Url.String())
 		}
 
 		for _, link := range links {
@@ -64,7 +65,7 @@ func main() {
 	})
 
 	if err := c.Run(url.String()); err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	sigs := make(chan os.Signal, 1)
@@ -78,5 +79,5 @@ func main() {
 	c.Wait()
 
 	stat := c.Stat()
-	fmt.Printf("Total: %d, Uniq: %d, Fecthed: %d\n", stat.TotalDiscovered(), stat.UniqDiscovered(), stat.TotalFetched())
+	log.Printf("Total: %d, Uniq: %d, Fecthed: %d\n", stat.TotalDiscovered(), stat.UniqDiscovered(), stat.TotalFetched())
 }

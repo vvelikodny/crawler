@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -138,7 +139,7 @@ func (c *Crawler) fetch(ctx context.Context, rawURL string, method string) error
 		}
 
 		if err := c.fetchResource(ctx, rawURL, method); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 		c.stat.AddTotalFetched()
