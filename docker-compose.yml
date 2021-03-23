@@ -1,0 +1,9 @@
+version: '3'
+services:
+  server:
+    image: crawler
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    # enter start URL to crawl website
+    command: https://velikodny.com
