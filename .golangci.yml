@@ -1,0 +1,24 @@
+linters:
+  disable-all: true
+  enable:
+    - gofmt
+    - goimports
+    - govet
+    - gosec
+    - errcheck
+    - structcheck
+    - varcheck
+    - staticcheck
+    - unused
+    - gosimple
+    - ineffassign
+    - deadcode
+
+run:
+  skip-dirs:
+    - vendor
+
+# golangci.com configuration
+# https://github.com/golangci/golangci/wiki/Configuration
+service:
+  golangci-lint-version: 1.21.0 # use the fixed version to not introduce new linters unexpectedly
