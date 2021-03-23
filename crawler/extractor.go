@@ -5,16 +5,21 @@ import (
 	"net/url"
 	"strings"
 
+	. "github.com/deckarep/golang-set"
 	"golang.org/x/net/html"
+)
+
+var (
+	resourceTags = NewSet("object", "frame", "iframe", "style", "link", "img", "script", "input", "video", "embed")
 )
 
 type Extractor interface {
 	ExtractLinks(source *url.URL, content *Response) []*Link
 }
 
-func NewExtractor(domains []string) Extractor {
+func NewExtractor(domains ...string) Extractor {
 	return &extractor{
-		LinkProcessor: NewLinkProcessor(domains),
+		LinkProcessor: NewLinkProcessor(domains...),
 	}
 }
 
@@ -53,13 +58,29 @@ func (extractor *extractor) extractLinks(source *url.URL, response *Response) []
 			// parse "a" tags only
 			if currentToken.Data == "a" {
 				linkAttrs = extractAttrs(currentToken)
-				continue
 			}
-		case tt == html.EndTagToken:
-			t := z.Token()
+
+			if resourceTags.Contains(currentToken.Data) {
+				attrs := extractAttrs(currentToken)
+
+				ref := ""
+
+				if hrefVal, ok := attrs["href"]; ok {
+					ref = hrefVal
+				}
+				if srcVal, ok := attrs["src"]; ok {
+					ref = srcVal
+				}
+
+				if len(ref) > 0 {
+					sourceLink, _ := NewLink(source.String())
+					resourceLink := NewHrefLink(sourceLink, ref)
+					results = append(results, resourceLink)
+				}
+			}
 
 			// Check if the token is an <a> tag
-			if t.Data == "a" && len(linkAttrs["href"]) > 0 {
+			if currentToken.Data == "a" && len(linkAttrs["href"]) > 0 {
 				sourceLink, _ := NewLink(source.String())
 				link := NewHrefLink(sourceLink, linkAttrs["href"])
 

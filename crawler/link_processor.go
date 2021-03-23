@@ -13,7 +13,7 @@ type LinkProcessor interface {
 	Process(link *Link)
 }
 
-func NewLinkProcessor(domains []string) LinkProcessor {
+func NewLinkProcessor(domains ...string) LinkProcessor {
 	return &linkProcessor{
 		domains: domains,
 	}

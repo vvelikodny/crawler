@@ -39,7 +39,7 @@ func New(options ...Option) *Crawler {
 		opt(c)
 	}
 
-	c.extractor = NewExtractor(c.cfg.allowedDomains)
+	c.extractor = NewExtractor(c.cfg.allowedDomains...)
 
 	return c
 }
