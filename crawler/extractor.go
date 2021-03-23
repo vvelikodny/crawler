@@ -26,7 +26,7 @@ func (extractor *extractor) ExtractLinks(source *url.URL, response *Response) []
 	results := extractor.extractLinks(source, response)
 
 	for _, newLink := range results {
-		extractor.LinkProcessor.Process(source, newLink)
+		extractor.LinkProcessor.Process(newLink)
 	}
 
 	return results
