@@ -13,12 +13,6 @@ jobs:
           go-version: 1.15
         id: go
 
-      - name: Set up path
-        run: |
-          echo "::set-env name=GOPATH::$(go env GOPATH)"
-          echo "::add-path::$(go env GOPATH)/bin"
-        shell: bash
-
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
 
