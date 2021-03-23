@@ -1,0 +1,8 @@
+.idea/
+vendor/
+
+*.out
+coverage*.*
+
+# crawler binary
+./bin/crawler
